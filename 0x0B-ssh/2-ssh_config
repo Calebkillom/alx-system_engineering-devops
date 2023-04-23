@@ -1,0 +1,9 @@
+#	configuration  to use the private key ~/.ssh/school
+#	configuration to refuse to authenticate using a password
+
+Host remote-server
+    Hostname 34.203.75.50
+    User ubuntu
+    IdentityFile ~/.ssh/school
+    PreferredAuthentications publickey
+    PasswordAuthentication no
