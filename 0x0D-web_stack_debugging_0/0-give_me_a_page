@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+#	get Apache to run on the container and to return a page
+
+sudo service apache2 start
