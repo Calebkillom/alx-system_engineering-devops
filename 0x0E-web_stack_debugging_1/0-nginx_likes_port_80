@@ -3,4 +3,5 @@
 
 sudo service nginx start
 sudo ufw allow 80/tcp
+sudo sed -i "s/sites-enabled/sites-available/" /etc/nginx/nginx.conf
 sudo service nginx restart
