@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Fix for listening on port 80
+
+sudo service nginx start
+sudo ufw allow 80/tcp
