@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Configuring my Nginx server so that /redirect_me is redirecting to another page.
+
+sudo apt update
+sudo apt -y install nginx
+echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
+
+# Add configuration for /redirect_me redirection
+REDIRECT_CONFIG="\\\tlocation /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=_qNmE0xQgfI;\n\t}\n"
+sudo sed -i "30i $REDIRECT_CONFIG" /etc/nginx/sites-available/default
+
+sudo service nginx restart
