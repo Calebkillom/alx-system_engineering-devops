@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Installing and configuring an Nginx web server to have a custom 404 error page that displays the string "Ceci n'est pas une page".
+
+# Installing Nginx using the apt-get package manager
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Creating a directory at /etc/nginx/html and an index.html file inside that directory with the text "Hello World!"
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+
+# Creating a 404.html file inside the /etc/nginx/html directory with the text "Ceci n'est pas une page".
+touch /etc/nginx/html/404.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+# Generating an Nginx configuration file with a custom 404 error page
+echo "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+
+    # Redirecting any requests to /redirect_me to a YouTube video
+    location /redirect_me {
+        return 301 https://www.youtube.com/;
+    }
+
+    # Using a custom 404 error page
+    error_page 404 /404.html;
+    location /404 {
+        root /etc/nginx/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+# Restarting the Nginx service to apply the changes
+sudo service nginx restart
