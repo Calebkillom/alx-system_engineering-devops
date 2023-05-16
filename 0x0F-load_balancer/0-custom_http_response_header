@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# configuring web-02 to be identical to web-01
+# adding a custom Nginx response header
+# making sure the value of the custom HTTP header is the hostname of the server
+
+# Updating the package lists
+sudo apt-get update
+
+# Installing Nginx
+sudo apt-get install -y nginx
+
+# Creating a directory for web files
+mkdir /etc/nginx/html
+
+# Creating the default index page
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+
+# Creating the custom 404 page
+touch /etc/nginx/html/404.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+# Configuring the Nginx server block
+echo "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+
+    # Redirecting location /redirect_me
+    location /redirect_me {
+        return 301 https://www.youtube.com/;
+    }
+
+    # the Custom 404 error page
+    error_page 404 /404.html;
+    location /404 {
+      root /etc/nginx/html;
+      internal;
+    }
+
+    # Adding the header with server hostname
+    add_header X-Served-By \$hostname;
+}" > /etc/nginx/sites-available/default
+
+# Restarting Nginx service to apply changes
+sudo service nginx restart
