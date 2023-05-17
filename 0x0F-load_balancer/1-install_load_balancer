@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Installing and configuring HAProxy on my lb-01 server.
+# Distributing requests using a roundrobin algorithm
+# The servers are configured with the right hostnames
+
+# Update and install HAProxy
+sudo apt update
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.6
+sudo apt-get install haproxy=2.6.*
+
+# Configure HAProxy
+sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null <<EOF
+frontend myfrontend_servers
+    bind *:80
+    mode http
+    default_backend mybackend_servers
+
+backend mybackend
+    balance roundrobin
+    server 166734-web-01 54.173.122.52:80 check
+    server 166734-web-02 54.196.29.159:80 check
+EOF
+
+# Enable HAProxy via init script
+if grep -q "^ENABLED=" /etc/default/haproxy; then
+    sudo sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
+else
+    echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
+fi
+
+# Restart HAProxy
+sudo service haproxy restart
+
+# Verify the configuration
+sudo service haproxy status
