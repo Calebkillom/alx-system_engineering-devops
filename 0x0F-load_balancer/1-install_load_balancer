@@ -31,6 +31,3 @@ fi
 
 # Restart HAProxy
 sudo service haproxy restart
-
-# Verify the configuration
-sudo service haproxy status
