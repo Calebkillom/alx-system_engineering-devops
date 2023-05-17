@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Installing and configuring HAProxy on my lb-01 server.
 # Distributing requests using a roundrobin algorithm
 # The servers are configured with the right hostnames
