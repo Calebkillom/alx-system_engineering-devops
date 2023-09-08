@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-
 # Installing and configuring an Nginx web server to have a custom 404 error page that displays the string "Ceci n'est pas une page".
-
 # Installing Nginx using the apt-get package manager
+
 sudo apt-get update
 sudo apt-get install -y nginx
 
