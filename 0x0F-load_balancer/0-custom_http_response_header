@@ -1,47 +1,42 @@
 #!/usr/bin/env bash
-# configuring web-02 to be identical to web-01
-# adding a custom Nginx response header
-# making sure the value of the custom HTTP header is the hostname of the server
+# Installing and configuring an Nginx web server to have a custom 404 error page that displays the string "Ceci n'est pas une page".
+# Installing Nginx using the apt-get package manager
+# Configuring Nginx so that its HTTP response contains a custom header (on web-01 and web-02)
 
-# Updating the package lists
 sudo apt-get update
-
-# Installing Nginx
 sudo apt-get install -y nginx
 
-# Creating a directory for web files
-mkdir /etc/nginx/html
+# Creating a directory at /etc/nginx/html and an index.html file inside that directory with the text "Hello World!"
+sudo mkdir -p /etc/nginx/html
+sudo touch /etc/nginx/html/index.html
+echo "Hello World!" | sudo tee /etc/nginx/html/index.html > /dev/null
 
-# Creating the default index page
-touch /etc/nginx/html/index.html
-echo "Hello World!" > /etc/nginx/html/index.html
+# Creating a 404.html file inside the /etc/nginx/html directory with the text "Ceci n'est pas une page".
+sudo touch /etc/nginx/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/404.html > /dev/null
 
-# Creating the custom 404 page
-touch /etc/nginx/html/404.html
-echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
-
-# Configuring the Nginx server block
+# Generating an Nginx configuration file with a custom 404 error page
 echo "server {
     listen 80;
     listen [::]:80 default_server;
     root   /etc/nginx/html;
     index  index.html index.htm;
 
-    # Redirecting location /redirect_me
+    # Redirecting any requests to /redirect_me to a YouTube video
     location /redirect_me {
         return 301 https://www.youtube.com/;
     }
 
-    # the Custom 404 error page
+    # Using a custom 404 error page
     error_page 404 /404.html;
     location = /404.html {
         root /etc/nginx/html;
         internal;
     }
-
-    # Adding the header with server hostname
+		
+		# Adding the header with server hostname
     add_header X-Served-By \$hostname;
 }" | sudo tee /etc/nginx/sites-available/default > /dev/null
 
-# Restarting Nginx service to apply changes
+# Restarting the Nginx service to apply the changes
 sudo service nginx restart
