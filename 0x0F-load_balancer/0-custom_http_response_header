@@ -32,8 +32,7 @@ echo "server {
     location = /404.html {
         root /etc/nginx/html;
         internal;
-    }
-		
+    }	
 		# Adding the header with server hostname
     add_header X-Served-By \$hostname;
 }" | sudo tee /etc/nginx/sites-available/default > /dev/null
