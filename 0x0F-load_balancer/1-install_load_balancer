@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Installing and configuring HAProxy.
-# Distributing requests using a roundrobin.
-# Making sure that HAproxy can be managed via an init script
+# HAProxy Installation and Configuration Script
 
-# Updating the system and installing HAProxy
+# Update the system and install prerequisites
 sudo apt -y update
 sudo apt install --no-install-recommends software-properties-common
+
+# Add HAProxy repository and install HAProxy
 sudo add-apt-repository ppa:vbernat/haproxy-2.6
 sudo apt install haproxy=2.6.\*
 
 # Configuring HAProxy
-cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
+sudo tee /etc/haproxy/haproxy.cfg >/dev/null <<EOF
 frontend my_frontend_server
     bind *:80
     mode http
