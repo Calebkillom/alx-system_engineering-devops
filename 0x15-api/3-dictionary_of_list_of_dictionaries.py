@@ -43,8 +43,6 @@ def export_todo_data():
     with open(unique_filename, 'w') as json_file:
         json.dump(todo_data, json_file, indent=4)
 
-    print('TODO data for all employees exported to {}'.format(unique_filename))
-
 
 if __name__ == '__main__':
     export_todo_data()
