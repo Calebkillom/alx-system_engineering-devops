@@ -11,8 +11,8 @@ def get_employee_todo_progress(employee_id):
     TODO list progress from a remote API.
     """
     """Make a GET request to retrieve user data"""
-    users_url = \
-        "http://jsonplaceholder.typicode.com/users/{}".format(employee_id)
+    users_url = "http://jsonplaceholder.typicode.com/users/{}".format(
+        employee_id)
     response = requests.get(users_url)
     response.raise_for_status()
     user_data = response.json()
@@ -30,23 +30,19 @@ def get_employee_todo_progress(employee_id):
     """Prepare the TODO list progress"""
     todo_progress = []
     for todo in todo_data:
-        completed_status = \
-            "Completed" if todo["completed"] else "Not Completed"
+        task_completed_status = "True" if todo["completed"] else "False"
         task_title = todo["title"]
-        todo_progress.append([employee_id, \
-                              username, completed_status, task_title])
+        todo_progress.append([
+            employee_id, username, task_completed_status, task_title
+        ])
 
     """Export data to CSV"""
     csv_filename = '{}.csv'.format(employee_id)
     with open(csv_filename, mode='w', newline='') as csv_file:
-        fieldnames = ["USER_ID", "USERNAME",\
-                      "TASK_COMPLETED_STATUS", "TASK_TITLE"]
         writer = csv.writer(csv_file)
-        writer.writerow(fieldnames)
         writer.writerows(todo_progress)
 
-    print('Data for Employee ID {} exported to {}'
-          .format(employee_id, csv_filename))
+    print('Data for Employee ID {} exported to {}'.format(employee_id, csv_filename))
 
 
 if __name__ == '__main__':
