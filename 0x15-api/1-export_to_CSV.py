@@ -39,10 +39,11 @@ def get_employee_todo_progress(employee_id):
     """Export data to CSV"""
     csv_filename = '{}.csv'.format(employee_id)
     with open(csv_filename, mode='w', newline='') as csv_file:
-        writer = csv.writer(csv_file)
+        writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
         writer.writerows(todo_progress)
 
-    print('Data for Employee ID {} exported to {}'.format(employee_id, csv_filename))
+    print('Data for \
+          Employee ID {} exported to {}'.format(employee_id, csv_filename))
 
 
 if __name__ == '__main__':
