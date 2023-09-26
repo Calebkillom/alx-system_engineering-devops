@@ -46,7 +46,6 @@ def get_employee_todo_progress(employee_id):
 
 
 if __name__ == "__main__":
-    """checks if the script is the main program that is currently executing."""
     if len(sys.argv) != 2:
         print("Usage: python script.py <employee_id>")
     else:
