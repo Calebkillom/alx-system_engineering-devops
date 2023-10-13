@@ -26,7 +26,7 @@ def top_ten(subreddit):
                 print(post['data']['title'])
 
         else:
-            print("none")
+            print("None")
 
     except Exception as e:
         print("An error occurred:", str(e))
