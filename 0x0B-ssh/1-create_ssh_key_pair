@@ -1,4 +1,3 @@
-#!/bin/bash
+#!/bin/env bash
 # Generate an RSA key pair with a passphrase
-
 ssh-keygen -b 4096 -f school -N betty
